@@ -20,6 +20,9 @@ function board_paint() {
 		  document.documentElement.clientHeight/MAX_ROWS ||
 		  document.body.clientHeight/MAX_ROWS;
     gm = $("<div>");
+	//deligate click event of the div(gameCell) childes
+	// to the parent container (gm)
+	gm.on("click",".gameCell",spotClick);
     gm.addClass('container row').attr('id','gameBoard');
 	$('body').append(gm);
 	// loop:
@@ -31,8 +34,6 @@ function board_paint() {
 			div.attr('id',y+'-'+x);
 			div.attr('value',0);
 			gm.append(div);
-			//seting click function
-			div.on("click",spotClick);
 		}
 	}
 }
