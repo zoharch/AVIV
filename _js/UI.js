@@ -5,26 +5,29 @@ const O = "img/O-Jolle_insigna.png";
 var player = 'H';
 var level = 1 ; // AI levels: 1- blind , 2 - novice, 3 - master
 var gameTerminal = "Didn't Start";
-
+var gm;
 //on load Jquery :
 $(function () {
-	board_paint();
-    $("#btn2").on("click",restart);
-});
-
-// painting board game and setting click event 
-function board_paint() {
-	var x,y,div,gm;
-	//using clientWidth and clientHeight for IE8 and earlier
-	const H = window.innerHeight/MAX_ROWS || 
-		  document.documentElement.clientHeight/MAX_ROWS ||
-		  document.body.clientHeight/MAX_ROWS;
-    gm = $("<div>");
+	gm = $("<div>");
+	//make the game container:
 	//deligate click event of the div(gameCell) childes
 	// to the parent container (gm)
 	gm.on("click",".gameCell",spotClick);
     gm.addClass('container row').attr('id','gameBoard');
 	$('body').append(gm);
+	//paint the board game:
+	board_paint();
+	//Modal btn event listener (game over dialog)
+    $("#btn2").on("click",restart);
+});
+
+// painting board game and setting click event 
+function board_paint() {
+	var x,y,div;
+	//using clientWidth and clientHeight for IE8 and earlier
+	const H = window.innerHeight/MAX_ROWS || 
+		  document.documentElement.clientHeight/MAX_ROWS ||
+		  document.body.clientHeight/MAX_ROWS;
 	// loop:
 	for (y = 1; y <= MAX_ROWS; y++) {
 		for (x = 1; x <= MAX_COLS; x++) {
