@@ -16,11 +16,10 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<!-- My STYLE -->
 		<style>
-/*
-			div{
-				height: 100px;
+			#msg,#btn2,
+			#btn3,#modTitle {
+				direction: rtl;
 			}
-*/
 		</style>
 		<!-- My scripts -->
 		<script src="js/AI.js"></script>
@@ -32,7 +31,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Game Over</h5>
+                <h5 id="modTitle" class="modal-title">המשחק הסתיים</h5>
                 <button id="btn1" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -41,8 +40,8 @@
                 <p id="msg">Modal body text goes here.</p>
               </div>
               <div class="modal-footer">
-                <button id="btn2" type="button" class="btn btn-primary">New Game</button>
-                <button id="btn3" type="button" class="btn btn-secondary" data-dismiss="modal">Quit</button>
+                <button id="btn2" type="button" class="btn btn-primary">משחק חדש</button>
+                <button id="btn3" type="button" class="btn btn-secondary" data-dismiss="modal">יציאה</button>
               </div>
             </div>
           </div>
