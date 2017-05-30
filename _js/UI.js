@@ -4,6 +4,8 @@ const X = "img/x-png-18.png";
 const O = "img/O-Jolle_insigna.png";
 var player = 'H';
 var level = 1 ; // AI levels: 1- blind , 2 - novice, 3 - master
+//states of the game are:
+//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
 var gameTerminal = "Didn't Start";
 var gm;
 //on load Jquery :
@@ -57,7 +59,20 @@ function restart() {
     board_paint() ;
 }
 function showGameModal () {
-    $("#msg").html("Game Result is: "+gameTerminal);
+	var str;
+	//states of the game are:
+	//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
+	switch(gameTerminal) {
+		case 'Human win':
+			str = 'כל הכבוד !!  ניצחת ! רוצה לשחק שוב ??';
+			break;
+		case 'AI win':
+			str = 'אני ניצחתי. רוצה לשחק שוב. אני בטוח שאתה יכול יותר.';
+			break;
+		default:
+			console.log ('showGameModal Called when the state of the game was: ' + gameTerminal );
+		   }
+    $("#msg").html(str);
     $('#GameModal').modal('show');
 }
 
