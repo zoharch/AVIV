@@ -4,24 +4,32 @@ const X = "img/x-png-18.png";
 const O = "img/O-Jolle_insigna.png";
 var player = 'H';
 var level = 1 ; // AI levels: 1- blind , 2 - novice, 3 - master
+//states of the game are:
+//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
 var gameTerminal = "Didn't Start";
-
+var gm;
 //on load Jquery :
 $(function () {
+	gm = $("<div>");
+	//make the game container:
+	//deligate click event of the div(gameCell) childes
+	// to the parent container (gm)
+	gm.on("click",".gameCell",spotClick);
+    gm.addClass('container row').attr('id','gameBoard');
+	$('body').append(gm);
+	//paint the board game:
 	board_paint();
+	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });
 
 // painting board game and setting click event 
 function board_paint() {
-	var x,y,div,gm;
+	var x,y,div;
 	//using clientWidth and clientHeight for IE8 and earlier
 	const H = window.innerHeight/MAX_ROWS || 
 		  document.documentElement.clientHeight/MAX_ROWS ||
 		  document.body.clientHeight/MAX_ROWS;
-    gm = $("<div>");
-    gm.addClass('container row').attr('id','gameBoard');
-	$('body').append(gm);
 	// loop:
 	for (y = 1; y <= MAX_ROWS; y++) {
 		for (x = 1; x <= MAX_COLS; x++) {
@@ -31,8 +39,6 @@ function board_paint() {
 			div.attr('id',y+'-'+x);
 			div.attr('value',0);
 			gm.append(div);
-			//seting click function
-			div.on("click",spotClick);
 		}
 	}
 }
@@ -53,7 +59,20 @@ function restart() {
     board_paint() ;
 }
 function showGameModal () {
-    $("#msg").html("Game Result is: "+gameTerminal);
+	var str;
+	//states of the game are:
+	//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
+	switch(gameTerminal) {
+		case 'Human win':
+			str = 'כל הכבוד !!  ניצחת ! רוצה לשחק שוב ??';
+			break;
+		case 'AI win':
+			str = 'אני ניצחתי. רוצה לשחק שוב. אני בטוח שאתה יכול יותר.';
+			break;
+		default:
+			console.log ('showGameModal Called when the state of the game was: ' + gameTerminal );
+		   }
+    $("#msg").html(str);
     $('#GameModal').modal('show');
 }
 

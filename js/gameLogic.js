@@ -27,16 +27,17 @@ function GameState(aGameMap,position) {
     //  bSearchWin: board , posX , PosY
 	win = bSearchWin(aGameMap,x,y);
 	if (win) {
-        gameTerminal = 'The Winner is:' + player;
-        showGameModal(); 
-    } else {
+        gameTerminal = player=='A' ? 'AI win' : 'Human win';
+    } else if (!searchForEmptyCells()) {
         //check if it is a finale state, (all bord is ocupied)
         // if no empty cells then the function will return nothing.
-        if (!searchForEmptyCells()) {
-            gameTerminal = 'The Game is Draw, nobody wone . Try Again.'; 
-            showGameModal(); 
-        }
-    }
+        gameTerminal = 'The Game is Draw';  
+    } else {
+		gameTerminal = 'The Game is still running';
+		return;
+	}
+	//if the state is win or draw then this methode will be executed.
+	showGameModal();
 }
 //-----------------------------------------------
 //         bSearchWin -  check wining state
