@@ -2,11 +2,7 @@ const MAX_ROWS = 3;
 const MAX_COLS = 3;
 const X = "img/x-png-18.png";
 const O = "img/O-Jolle_insigna.png";
-var player = 'H';
-var level = 1 ; // AI levels: 1- blind , 2 - novice, 3 - master
-//states of the game are:
-//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
-var gameTerminal = "Didn't Start";
+
 var gm;
 //on load Jquery :
 $(function () {
@@ -25,6 +21,7 @@ $(function () {
 
 // painting board game and setting click event 
 function board_paint() {
+	console.log("board_paint");
 	var x,y,div;
 	//using clientWidth and clientHeight for IE8 and earlier
 	const H = window.innerHeight/MAX_ROWS || 
@@ -44,8 +41,21 @@ function board_paint() {
 }
 
 function printSymbol(_this) {
-	var symbol = player=="H" ? X : O ;
+	
+	var symbol = (player == "H" || player == 'H tmp') ? X : O ;
+	
+	console.log("printSymbol"+ symbol+ " id: "+$(_this).attr('id') );
 	$(_this).attr('value',player).removeClass('spot');
+	// player A/H tmp are the middle process of AI calculating it's best move.
+	// therefore the img is not showed on the board.
+	if (player == 'A tmp') {
+		$(_this).addClass('AIguess');
+		return;
+		}
+	if (player == 'H tmp') {
+		$(_this).addClass('AI-Hguess');
+		return;
+		}
 	var img = $("<img>");
 	img.attr("src",symbol);
 	img.css("height",$(_this).height()+"px");
@@ -53,12 +63,30 @@ function printSymbol(_this) {
 	$(_this).append(img);
 }
 
+// clear the bord from AI guses
+function clearAIgueses() {
+	console.log("clearAIgueses");
+	var AIthinking = $('.AIguess');
+	AIthinking.attr('val',0);
+	AIthinking.addClass('spot').removeClass('AIguess');
+}
+
+// clear the bord from AI guses
+function clearAI_Hgueses() {
+	console.log("clearAI_Hgueses");
+	var AIthinking = $('.AI-Hguess');
+	AIthinking.attr('val',0);
+	AIthinking.addClass('spot').removeClass('AI-Hguess');
+}
+
 function restart() {
+	console.log("restart");
     $('#GameModal').modal('hide');
     $('#gameBoard').empty();
     board_paint() ;
 }
 function showGameModal () {
+	console.log("showGameModal");
 	var str;
 	//states of the game are:
 	//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 

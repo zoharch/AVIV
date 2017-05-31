@@ -1,12 +1,56 @@
+var player = 'H'; /* 'A' for AI moves
+					  'H' for Human moves
+					  'A tmp' for AI temporary examination
+					  'H tmp' for AI temporary examination what whould Human whould do.
+				   */
+var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master
+//states of the game are:
+//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
+var gameTerminal = "Didn't Start";
+
 function toggelPlayer(_this) {
+	console.log("toggelPlayer");
 	GameState($('.gameCell'),_this);
-	player = player==='H' ? 'A' : 'H' ; //if a human is playing change the player to AI and vise versia.
-	if (player === 'A') {
-		ai();
-	}
+	//If AI is examinating the board it uses two agent players: A/H temp
+	switch(player) {
+		case 'H':
+			//if the state is win or draw then terminate the game.
+			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') || (gameTerminal == 'The Game is Draw')) {
+				showGameModal();
+			}			
+			player = 'A'; //if a human is playing change the player to AI
+			ai();
+			break;
+		case 'A':
+			//if the state is win or draw then terminate the game.
+			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') || (gameTerminal == 'The Game is Draw')) {
+				showGameModal();
+			}						
+			player = 'H';
+			break;
+		case 'A tmp': // 'A tmp' for AI temporary moves
+			//game state is only temporary so dont show anything to the screen yet.
+			// issue: check game state in ai()
+			player = 'H tmp';
+			ai();
+			break;
+		case 'H tmp': // 'H tmp' for AI temporary examination what whould Human whould do.
+			//game state is only temporary so dont show anything to the screen yet.
+			// issue: check game state in ai()
+			player = 'A tmp';
+			ai();
+			break;
+		default:
+			console.log('undefined player:'+player);
+		   }
+	console.log("player is: "+ player);
 }
 //Event handler for clicing in a box game
 function spotClick() {
+	console.log("spotClick");
+	//each cell box value that occuied by a player, 
+	//has a non  0 value. Therefore return to avoid
+	//ocupy an already ocupied cell again.
 	if ($(this).attr('value')!="0") {
 		return;
 	}
@@ -22,7 +66,7 @@ function spotClick() {
 //State is in gameTerminal.
 //States are : 'AI win' , 'Human win' , 'The Game is Draw', 'The Game is still running'.
 function GameState(aGameMap,position) {
-
+	console.log("GameState");
 	var winner, win = false;
     var x,y;
     y = Number($(position).attr('id').substr(0,1));
@@ -38,10 +82,17 @@ function GameState(aGameMap,position) {
         gameTerminal = 'The Game is Draw';  
     } else {
 		gameTerminal = 'The Game is still running';
-		return;
 	}
-	//if the state is win or draw then this methode will be executed.
-	showGameModal();
+}
+// searchfor empty cells
+//each time Human plays, the class spot is removed.
+// when AI plays, it first descover all posibilities.
+// it plays on the board virtually without showing the other player his guessings.
+// therefore it replace the class sopt with the class AIguess.
+function searchForEmptyCells() {
+	console.log("searchForEmptyCells");
+	var emptyCells = $('.spot');
+	return emptyCells;
 }
 //-----------------------------------------------
 //         bSearchWin -  check wining state
@@ -57,6 +108,7 @@ function bSearchWin(aGameMap,x,y) {
 		str = '',
 		strWin = '',
 		intWinCounter;
+	console.log("bSearchWin");
 	//decide the strWin
 	for (i = 1 ; i<= MAX_COLS; i++){
 		strWin += player; //HHH or AAA
@@ -121,6 +173,7 @@ function direction(y, yDir, x, xDir,str,newY,newX) {
 	
     'use strict';
 	
+//	console.log("direction");
 	newY += yDir;
 	newX += xDir;
 	if ((0 < newY) && (newY <= MAX_ROWS) && (0 < newX) && (newX <= MAX_COLS)) {

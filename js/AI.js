@@ -1,19 +1,104 @@
 // ai function
 function ai() {
+	console.log("ai"+" player is: " + player);
+	//options[] recieve empty cells Array
 	var options = searchForEmptyCells();
-	// AI Blind
-	if (level == 1) {
-		//return random empty cell
-		var selection = options[Math.round((options.length-1)*Math.random())];
-		player = 'A'; // symbolise AI plauyers vers H for Human player
-		printSymbol(selection);
-	}
+	// Select Inteligence based on global var level
+	switch(level) {
+		case 1:
+			// AI - Blind - choose a random empty cell
+			var selection = options[Math.round((options.length-1)*Math.random())];
+			break;
+		case 2:
+			//AI - Novice level, TBD.
+			break;
+		case 3:
+			// AI Master
+			selection = aiMaster(options);
+			break;
+		default: 
+			console.log('ai() default: invalid level happend');
+				}
+	player = 'A'; // symbolise AI player vers H (for Human) player
+	printSymbol(selection);
 	toggelPlayer(selection);
+	
+} 
+
+// AI Master
+// Aoptions[] are all the empty cells available for a move.
+// @returns a cell box to move to.
+// AI plays virtually on the Board.
+// It starts from its first optional move and mark it on the borad,
+// using the function printSymbol(selection) that sets the value of the 
+// cell coresponding to A/H temp moves. The function is not symboilzing an img on the cell
+// so nothing shows up. It also replaces the class 'spot' with 'AIguess'.
+// Then toggleplayer() function starts and first it calls to GameState() function.
+// GameState() function check the bord and setts the game state
+// in gameTerminal global variable.
+// Then the function toggleplayer() toggles tmp players A tmp to H tmp and vise versia. 
+// Untill ai() changes the player to A. 
+// for that player, toggleplayer() will change the player back to H and then it will
+// be H turn.
+// procees to choos for the best move:
+// AI check each option to find a winning.
+// If a winning was found it cleard the bord and place it's move.
+// If not, it search for the Human options after it's move and if it 
+// descover that Human can win it choos his move inorder to block it.
+// clearing the bord is done with the function clearAIgueses() that selects
+// all cells with '.AIguess' and change their value to 0, and replace the classs
+// again to 'spot' inorder to get the board clean again to try the second option.
+// future enhance: evaluate score function to grade each move option
+//                 evaluate Minimax - alpha beta pruning algoritem
+//                 set selection for the return result move of Minimax.
+function aiMaster(Aoptions) {
+	console.log("aiMaster");
+	var AImove; // AI chosen cell box to play
+	var Hmove;  // Human chosen cell box to play
+	var Hoptions = []; //  H options for a move
+	// start with random move and loop frew the board to find a better one.
+	var bestMove = Aoptions[Math.round((Aoptions.length-1)*Math.random())];
+	for (var i = 0; i < Aoptions.length; i++) {
+		console.log("aiMaster: AI options: " + i);
+		player = 'A tmp';
+		AImove = Aoptions[i];
+		printSymbol(AImove);
+		// toggle the player
+		GameState($('.gameCell'),AImove);
+		//states of the game are:
+		//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 		
+		if (gameTerminal == 'AI win') {
+			bestMove = AImove; 
+			break;
+		}		
+		// now lets look what H options are:
+		Hoptions = searchForEmptyCells();
+		for (var k = 0; k < Hoptions.length; k++) {
+			console.log("aiMaster: H options: " + k);
+			player = 'H tmp';
+			Hmove = Hoptions[k];
+			printSymbol(Hmove);
+			GameState($('.gameCell'),AImove);
+			//states of the game are:
+			//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 				
+			if (gameTerminal == 'Human win') {
+				// if Human player is going to win, lets block it !
+				// let's us take it's move.
+				bestMove = Hmove; 
+				break;
+			}
+			clearAI_Hgueses();
+		}
+		clearAI_Hgueses();
+		clearAIgueses(); // clear the bord from AI guses
+	}
+	clearAI_Hgueses();
+	clearAIgueses(); // clear the bord from AI guses
+	// if there isn't a move that reveals a victory than choos randomly
+	return bestMove;
 }
 
-function searchForEmptyCells() {
-	var emptyCells = $('.spot');
-	return emptyCells;
+function minimax() {
+	
 }
-
 //var cln = $('.gameCell').clone(false); // copy the board
