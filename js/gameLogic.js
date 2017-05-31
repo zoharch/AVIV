@@ -5,7 +5,7 @@ function toggelPlayer(_this) {
 		ai();
 	}
 }
-
+//Event handler for clicing in a box game
 function spotClick() {
 	if ($(this).attr('value')!="0") {
 		return;
@@ -17,6 +17,10 @@ function spotClick() {
 //const MAX_COLS = 3
 //playerValue = H for Human player, A for AI
 
+//@param aGameMap as the boad play
+//@param position of the player cell box 
+//State is in gameTerminal.
+//States are : 'AI win' , 'Human win' , 'The Game is Draw', 'The Game is still running'.
 function GameState(aGameMap,position) {
 
 	var winner, win = false;
