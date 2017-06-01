@@ -6,15 +6,13 @@ const O = "img/O-Jolle_insigna.png";
 var gm;
 //on load Jquery :
 $(function () {
-	gm = $("<div>");
-	//make the game container:
+	gm = $("#gameBoard");
 	//deligate click event of the div(gameCell) childes
 	// to the parent container (gm)
 	gm.on("click",".gameCell",spotClick);
-    gm.addClass('container row').attr('id','gameBoard');
-	$('body').append(gm);
 	//paint the board game:
 	board_paint();
+	canvas_paint();
 	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });
@@ -35,7 +33,7 @@ function board_paint() {
 			div.css('height',H);
 			div.attr('id',y+'-'+x);
 			div.attr('value',0);
-			gm.append(div);
+			$("#gameBoard").append(div);
 		}
 	}
 }
