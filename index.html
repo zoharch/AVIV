@@ -16,6 +16,22 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<!-- My STYLE -->
 		<style>
+		* {
+			box-sizing:border-box;
+		}
+		canvas,#gameBoard {
+			margin:0;
+			padding:0;
+		}
+		#gameBoard {
+			position: relative;
+		}
+		canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	
 			#msg,#btn2,
 			#btn3,#modTitle {
 				direction: rtl;
@@ -25,8 +41,11 @@
 		<script src="js/AI.js"></script>
 		<script src="js/gameLogic.js"></script>
 		<script src="js/UI.js"></script>
+        <script src="js/canvas.js"></script>
 	</head>
-	<body>
+	<body id="bdy">
+    	<div id="gameBoard" class="container row"></div>
+        
         <div id="GameModal" class="modal fade">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
