@@ -7,7 +7,9 @@ var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master
 //states of the game are:
 //"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
 var gameTerminal = "Didn't Start";
-
+//@param global this for the las cell box was clicked
+var _lasPos;
+//------------------------------------------------
 function toggelPlayer() {
 	var _this = _lasPos;
 	console.log("toggelPlayer");
@@ -48,8 +50,7 @@ function toggelPlayer() {
 		   }
 	console.log("player is: "+ player);
 }
-//@param global this for the las cell box was clicked
-var _lasPos;
+
 //Event handler for clicing in a box game
 function spotClick() {
 	console.log("spotClick");

@@ -21,7 +21,8 @@ function ai() {
 				}
 	player = 'A'; // symbolise AI player vers H (for Human) player
 	printSymbol(selection);
-	toggelPlayer(selection);
+	_lasPos = selection;
+	toggelPlayer();
 	
 } 
 
@@ -63,7 +64,7 @@ function aiMaster(Aoptions) {
 		player = 'A tmp';
 		AImove = Aoptions[i];
 		printSymbol(AImove);
-		// toggle the player
+		// check game status
 		GameState($('.gameCell'),AImove);
 		//states of the game are:
 		//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 		
@@ -81,6 +82,7 @@ function aiMaster(Aoptions) {
 				player = 'H tmp';
 				Hmove = Hoptions[k];
 				printSymbol(Hmove);
+				// check game status
 				GameState($('.gameCell'),Hmove);
 				clearAI_Hgueses(Hmove);
 				//states of the game are:
