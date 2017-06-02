@@ -8,7 +8,8 @@ var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master
 //"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
 var gameTerminal = "Didn't Start";
 
-function toggelPlayer(_this) {
+function toggelPlayer() {
+	var _this = _lasPos;
 	console.log("toggelPlayer");
 	GameState($('.gameCell'),_this);
 	//If AI is examinating the board it uses two agent players: A/H temp
@@ -16,6 +17,7 @@ function toggelPlayer(_this) {
 		case 'H':
 			//if the state is win or draw then terminate the game.
 			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') || (gameTerminal == 'The Game is Draw')) {
+				canvas_show(true);
 				showGameModal();
 			}			
 			player = 'A'; //if a human is playing change the player to AI
@@ -24,6 +26,7 @@ function toggelPlayer(_this) {
 		case 'A':
 			//if the state is win or draw then terminate the game.
 			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') || (gameTerminal == 'The Game is Draw')) {
+				canvas_show(true);
 				showGameModal();
 			}						
 			player = 'H';
@@ -45,6 +48,8 @@ function toggelPlayer(_this) {
 		   }
 	console.log("player is: "+ player);
 }
+//@param global this for the las cell box was clicked
+var _lasPos;
 //Event handler for clicing in a box game
 function spotClick() {
 	console.log("spotClick");
@@ -55,7 +60,8 @@ function spotClick() {
 		return;
 	}
 	printSymbol(this);
-	toggelPlayer(this);
+	_lasPos = this;
+	setTimeout(function(){ toggelPlayer() }, 500);
 }
 //const MAX_ROWS = 3;
 //const MAX_COLS = 3
@@ -75,8 +81,10 @@ function GameState(aGameMap,position) {
     //  bSearchWin: board , posX , PosY
 	win = bSearchWin(aGameMap,x,y);
 	if (win) {
-        gameTerminal = player=='A' ? 'AI win' : 'Human win';
-    } else if (!searchForEmptyCells()) {
+		//'A tmp'.substr(0,1) = 'A'
+        gameTerminal = player.substr(0,1)=='A' ? 'AI win' : 'Human win';
+		//if the returned object is an empty array of columns, length=0
+    } else if (searchForEmptyCells().length==0) { 
         //check if it is a finale state, (all bord is ocupied)
         // if no empty cells then the function will return nothing.
         gameTerminal = 'The Game is Draw';  
@@ -111,7 +119,7 @@ function bSearchWin(aGameMap,x,y) {
 	console.log("bSearchWin");
 	//decide the strWin
 	for (i = 1 ; i<= MAX_COLS; i++){
-		strWin += player; //HHH or AAA
+		strWin += player.substr(0,1); //HHH or AAA ('H temp'.substr(0,1)='H')
 	}
 	
 //	direction(y, yDir, x, xDir,str,newY,newX)
@@ -126,7 +134,7 @@ function bSearchWin(aGameMap,x,y) {
 		//go lefr: (and add the previous result)
 		str = direction(y, 0, x,-1,str,y,x);
 		//add curent place
-		str += $('#'+y+'-'+x).attr('value'); //  aGameMap[y][x];
+		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
 		bWin  = (str == strWin) ?  true : bWin = false ;
 	}
 	
@@ -137,7 +145,7 @@ function bSearchWin(aGameMap,x,y) {
 		//go up: (and add the previous result)
 		str = direction(y,-1, x,0,str,y,x);
 		//add curent place
-		str += $('#'+y+'-'+x).attr('value'); //  aGameMap[y][x];
+		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
 		bWin  = (str == strWin) ?  true : bWin = false ;
 	}
 
@@ -148,7 +156,7 @@ function bSearchWin(aGameMap,x,y) {
 		//go up: (and add the previous result)
 		str = direction(y,-1, x,-1,str,y,x);
 		//add curent place
-		str += $('#'+y+'-'+x).attr('value'); //  aGameMap[y][x];
+		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
 		bWin  = (str == strWin) ?  true : bWin = false ;
 	}
 
@@ -159,7 +167,7 @@ function bSearchWin(aGameMap,x,y) {
 		//go up: (and add the previous result)
 		str = direction(y,-1, x,+1,str,y,x);
 		//add curent place
-		str += $('#'+y+'-'+x).attr('value'); //  aGameMap[y][x];
+		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
 		bWin  = (str == strWin) ?  true : bWin = false ;
 	}
 
@@ -177,8 +185,9 @@ function direction(y, yDir, x, xDir,str,newY,newX) {
 	newY += yDir;
 	newX += xDir;
 	if ((0 < newY) && (newY <= MAX_ROWS) && (0 < newX) && (newX <= MAX_COLS)) {
-		if ($('#'+newY+'-'+newX).attr('value') == $('#'+y+'-'+x).attr('value')) {
-			str += String($('#'+newY+'-'+newX).attr('value'));
+		if ($('#'+newY+'-'+newX).attr('value').substr(0,1) == $('#'+y+'-'+x).attr('value').substr(0,1) ) {
+			//('H temp'.substr(0,1)='H')
+			str += String($('#'+newY+'-'+newX).attr('value').substr(0,1) );
 			str = direction(y, yDir, x, xDir,str,newY,newX);
 			}
 		}

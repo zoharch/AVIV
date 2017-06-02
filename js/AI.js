@@ -68,33 +68,35 @@ function aiMaster(Aoptions) {
 		//states of the game are:
 		//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 		
 		if (gameTerminal == 'AI win') {
-			bestMove = AImove; 
-			break;
+			bestMove = AImove;
+			clearAIgueses(AImove);
+			return bestMove;
 		}		
 		// now lets look what H options are:
 		Hoptions = searchForEmptyCells();
-		for (var k = 0; k < Hoptions.length; k++) {
-			console.log("aiMaster: H options: " + k);
-			player = 'H tmp';
-			Hmove = Hoptions[k];
-			printSymbol(Hmove);
-			GameState($('.gameCell'),AImove);
-			//states of the game are:
-			//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 				
-			if (gameTerminal == 'Human win') {
-				// if Human player is going to win, lets block it !
-				// let's us take it's move.
-				bestMove = Hmove; 
-				break;
+		//if the returned object is an empty array of columns, length=0		
+		if (Hoptions.length) {
+			for (var k = 0; k < Hoptions.length; k++) {
+				console.log("aiMaster: H options: " + k);
+				player = 'H tmp';
+				Hmove = Hoptions[k];
+				printSymbol(Hmove);
+				GameState($('.gameCell'),Hmove);
+				clearAI_Hgueses(Hmove);
+				//states of the game are:
+				//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 				
+				if (gameTerminal == 'Human win') {
+					// if Human player is going to win, lets block it !
+					// let's us take it's move.
+					// clear the borad from guessing and take action !
+					clearAIgueses(AImove)
+					bestMove = Hmove; 
+					return bestMove;
+				}
 			}
-			clearAI_Hgueses();
+		clearAIgueses(AImove); // clear the bord from AI guses
 		}
-		clearAI_Hgueses();
-		clearAIgueses(); // clear the bord from AI guses
 	}
-	clearAI_Hgueses();
-	clearAIgueses(); // clear the bord from AI guses
-	// if there isn't a move that reveals a victory than choos randomly
 	return bestMove;
 }
 

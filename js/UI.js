@@ -2,21 +2,18 @@ const MAX_ROWS = 3;
 const MAX_COLS = 3;
 const X = "img/x-png-18.png";
 const O = "img/O-Jolle_insigna.png";
-
-var gm;
+//*********************************************
 //on load Jquery :
 $(function () {
-	gm = $("#gameBoard");
 	//deligate click event of the div(gameCell) childes
-	// to the parent container (gm)
-	gm.on("click",".gameCell",spotClick);
-	//paint the board game:
+	// to the parent container gameBoard
+	$("#gameBoard").on("click",".gameCell",spotClick);
+	//paint the board game and the canvas;
 	board_paint();
-	canvas_paint();
 	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });
-
+//*********************************************
 // painting board game and setting click event 
 function board_paint() {
 	console.log("board_paint");
@@ -62,19 +59,17 @@ function printSymbol(_this) {
 }
 
 // clear the bord from AI guses
-function clearAIgueses() {
+function clearAIgueses(gameCell) {
 	console.log("clearAIgueses");
-	var AIthinking = $('.AIguess');
-	AIthinking.attr('val',0);
-	AIthinking.addClass('spot').removeClass('AIguess');
+	$(gameCell).attr('value',0);
+	$(gameCell).addClass('spot').removeClass('AIguess');
 }
 
 // clear the bord from AI guses
-function clearAI_Hgueses() {
+function clearAI_Hgueses(gameCell) {
 	console.log("clearAI_Hgueses");
-	var AIthinking = $('.AI-Hguess');
-	AIthinking.attr('val',0);
-	AIthinking.addClass('spot').removeClass('AI-Hguess');
+	$(gameCell).attr('value',0);
+	$(gameCell).addClass('spot').removeClass('AI-Hguess');
 }
 
 function restart() {
