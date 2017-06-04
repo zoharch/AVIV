@@ -12,24 +12,34 @@ var _lasPos;
 //------------------------------------------------
 function toggelPlayer() {
 	var _this = _lasPos;
-	console.log("toggelPlayer");
 	GameState($('.gameCell'),_this);
+	if (gameTerminal == 'The Game is Draw' && player.search('tmp') == -1) {
+		console.log('The Game is Draw');
+		showGameModal();
+		return;
+	}
 	//If AI is examinating the board it uses two agent players: A/H temp
 	switch(player) {
 		case 'H':
 			//if the state is win or draw then terminate the game.
-			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') || (gameTerminal == 'The Game is Draw')) {
-				canvas_show(true);
+			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win')) {
+				console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
+				paint_dash (winner.sequence,winner.no);
+				$("#canvas").show();
 				showGameModal();
+				break;
 			}			
 			player = 'A'; //if a human is playing change the player to AI
 			ai();
 			break;
 		case 'A':
 			//if the state is win or draw then terminate the game.
-			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') || (gameTerminal == 'The Game is Draw')) {
-				canvas_show(true);
+			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') ) {
+				console.log( 'AI win - paint dash request: '+winner.sequence + ' ' + winner.no )
+				paint_dash (winner.sequence,winner.no);
+				$("#canvas").show();
 				showGameModal();
+				break;
 			}						
 			player = 'H';
 			break;
@@ -53,7 +63,7 @@ function toggelPlayer() {
 
 //Event handler for clicing in a box game
 function spotClick() {
-	console.log("spotClick");
+	console.log("-------------------spot Event--------------------------------------")
 	//each cell box value that occuied by a player, 
 	//has a non  0 value. Therefore return to avoid
 	//ocupy an already ocupied cell again.
@@ -62,7 +72,7 @@ function spotClick() {
 	}
 	printSymbol(this);
 	_lasPos = this;
-	setTimeout(function(){ toggelPlayer() }, 500);
+	setTimeout(function(){ toggelPlayer() }, 200);
 }
 //const MAX_ROWS = 3;
 //const MAX_COLS = 3
@@ -73,15 +83,13 @@ function spotClick() {
 //State is in gameTerminal.
 //States are : 'AI win' , 'Human win' , 'The Game is Draw', 'The Game is still running'.
 function GameState(aGameMap,position) {
-	console.log("GameState");
-	var winner, win = false;
     var x,y;
     y = Number($(position).attr('id').substr(0,1));
     x = Number($(position).attr('id').substr(2,1));
     
-    //  bSearchWin: board , posX , PosY
-	win = bSearchWin(aGameMap,x,y);
-	if (win) {
+    //  bSearchWin: board , posX , PosY --> updated global obj variable winner
+	bSearchWin(aGameMap,x,y);
+	if (winner.bwin) {
 		//'A tmp'.substr(0,1) = 'A'
         gameTerminal = player.substr(0,1)=='A' ? 'AI win' : 'Human win';
 		//if the returned object is an empty array of columns, length=0
@@ -99,13 +107,15 @@ function GameState(aGameMap,position) {
 // it plays on the board virtually without showing the other player his guessings.
 // therefore it replace the class sopt with the class AIguess.
 function searchForEmptyCells() {
-	console.log("searchForEmptyCells");
 	var emptyCells = $('.spot');
 	return emptyCells;
 }
 //-----------------------------------------------
 //         bSearchWin -  check wining state
-// return true if the playyer wins.
+// return winner object 
+// winner.win = true if a winner was found
+// winner.sequence = row , column , left diagonal , right diagonal
+// winner.no = row/column number
 //------------------------------------------------
 function bSearchWin(aGameMap,x,y) {
 	
@@ -113,22 +123,19 @@ function bSearchWin(aGameMap,x,y) {
 
 	var i,
 		k,
-		bWin = false,
 		str = '',
-		strWin = '',
-		intWinCounter;
-	console.log("bSearchWin");
+		strWin = '';
 	//decide the strWin
 	for (i = 1 ; i<= MAX_COLS; i++){
 		strWin += player.substr(0,1); //HHH or AAA ('H temp'.substr(0,1)='H')
 	}
-	
+	winner.bwin = false;
 //	direction(y, yDir, x, xDir,str,newY,newX)
 // y,y is the position in the multidemantion array of the starting point.
 // yDir and xDir are the diretions to go (+1,-1)
 // str is the string to search in the array.
 // newY,Newx is the position of the new place to search in the array.	
-	if (!bWin) {
+	if (!winner.bwin) {
 		//row check
 		//go right:
 		str = direction(y, 0, x,+1,"",y,x);
@@ -136,10 +143,14 @@ function bSearchWin(aGameMap,x,y) {
 		str = direction(y, 0, x,-1,str,y,x);
 		//add curent place
 		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
-		bWin  = (str == strWin) ?  true : bWin = false ;
+		if (str == strWin) {
+			winner.bwin = true ;
+			winner.sequence = 'row';
+			winner.no = y;
+			}
 	}
 	
-	if (!bWin) {
+	if (!winner.bwin) {
 		//column check
 		//go down:
 		str = direction(y,+1, x,0,"",y,x);
@@ -147,10 +158,14 @@ function bSearchWin(aGameMap,x,y) {
 		str = direction(y,-1, x,0,str,y,x);
 		//add curent place
 		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
-		bWin  = (str == strWin) ?  true : bWin = false ;
+		if (str == strWin) {
+			winner.bwin = true ;
+			winner.sequence = 'column';
+			winner.no = x;
+			}		
 	}
 
-	if (!bWin) {
+	if (!winner.bwin) {
 		//left diagonal
 		//go down:
 		str = direction(y,+1, x,+1,"",y,x);
@@ -158,10 +173,13 @@ function bSearchWin(aGameMap,x,y) {
 		str = direction(y,-1, x,-1,str,y,x);
 		//add curent place
 		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
-		bWin  = (str == strWin) ?  true : bWin = false ;
+		if (str == strWin) {
+			winner.bwin = true ;
+			winner.sequence = 'Diagonal_down';			
+			}
 	}
 
-	if (!bWin) {
+	if (!winner.bwin) {
 		//right diagonal
 		//go down:
 		str = direction(y,+1, x,-1,"",y,x);
@@ -169,10 +187,13 @@ function bSearchWin(aGameMap,x,y) {
 		str = direction(y,-1, x,+1,str,y,x);
 		//add curent place
 		str += $('#'+y+'-'+x).attr('value').substr(0,1); //  aGameMap[y][x];
-		bWin  = (str == strWin) ?  true : bWin = false ;
+		if (str == strWin) {
+			winner.bwin = true ;
+			winner.sequence = 'Diagonal_up';			
+			}
 	}
 
-	return bWin;
+	return;
 }
 //-----------------------------------------------
 //             direction
@@ -182,7 +203,6 @@ function direction(y, yDir, x, xDir,str,newY,newX) {
 	
     'use strict';
 	
-//	console.log("direction");
 	newY += yDir;
 	newX += xDir;
 	if ((0 < newY) && (newY <= MAX_ROWS) && (0 < newX) && (newX <= MAX_COLS)) {

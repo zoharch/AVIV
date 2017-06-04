@@ -1,6 +1,5 @@
 // ai function
 function ai() {
-	console.log("ai"+" player is: " + player);
 	//options[] recieve empty cells Array
 	var options = searchForEmptyCells();
 	// Select Inteligence based on global var level
@@ -53,14 +52,12 @@ function ai() {
 //                 evaluate Minimax - alpha beta pruning algoritem
 //                 set selection for the return result move of Minimax.
 function aiMaster(Aoptions) {
-	console.log("aiMaster");
 	var AImove; // AI chosen cell box to play
 	var Hmove;  // Human chosen cell box to play
 	var Hoptions = []; //  H options for a move
 	// start with random move and loop frew the board to find a better one.
 	var bestMove = Aoptions[Math.round((Aoptions.length-1)*Math.random())];
 	for (var i = 0; i < Aoptions.length; i++) {
-		console.log("aiMaster: AI options: " + i);
 		player = 'A tmp';
 		AImove = Aoptions[i];
 		printSymbol(AImove);
@@ -78,7 +75,6 @@ function aiMaster(Aoptions) {
 		//if the returned object is an empty array of columns, length=0		
 		if (Hoptions.length) {
 			for (var k = 0; k < Hoptions.length; k++) {
-				console.log("aiMaster: H options: " + k);
 				player = 'H tmp';
 				Hmove = Hoptions[k];
 				printSymbol(Hmove);
@@ -101,8 +97,3 @@ function aiMaster(Aoptions) {
 	}
 	return bestMove;
 }
-
-function minimax() {
-	
-}
-//var cln = $('.gameCell').clone(false); // copy the board
