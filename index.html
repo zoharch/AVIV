@@ -31,22 +31,29 @@
 			top: 0;
 			left: 0;
 		}
-	
-			#msg,#btn2,
-			#btn3,#modTitle {
-				direction: rtl;
+		#msg,#btn2,
+		#btn3,#modTitle {
+			direction: rtl;
+			}
+		.fade {
+	   		opacity: 0;
+	   		-webkit-transition: opacity 5.25s linear;
+			-moz-transition: opacity 5.25s linear;
+			-ms-transition: opacity 5.25s linear;
+        	-o-transition: opacity 5.25s linear;
+			transition: opacity 5.25s linear;
 			}
 		</style>
 		<!-- My scripts -->
-		<script src="js/AI.js"></script>
-		<script src="js/gameLogic.js"></script>
 		<script src="js/UI.js"></script>
+		<script src="js/gameLogic.js"></script>
+		<script src="js/AI.js"></script>
         <script src="js/canvas.js"></script>
 	</head>
-	<body id="bdy">
-    	<div id="gameBoard" class="container row"></div>
+	<body id="bdy" class="container">
+    	<div id="gameBoard" class="row"></div>
         
-        <div id="GameModal" class="modal fade">
+        <div id="GameModal" class="modal fade in">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
