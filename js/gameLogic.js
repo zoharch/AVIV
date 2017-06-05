@@ -26,6 +26,7 @@ function toggelPlayer() {
 				console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
 				paint_dash (winner.sequence,winner.no);
 				$("#canvas").show();
+//				canvas_show(true);
 				showGameModal();
 				break;
 			}			
@@ -38,6 +39,7 @@ function toggelPlayer() {
 				console.log( 'AI win - paint dash request: '+winner.sequence + ' ' + winner.no )
 				paint_dash (winner.sequence,winner.no);
 				$("#canvas").show();
+//				canvas_show(true);
 				showGameModal();
 				break;
 			}						

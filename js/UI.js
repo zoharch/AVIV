@@ -19,6 +19,7 @@ $(function () {
 	board_paint();
 	creatCanvas();
 	$("#canvas").hide();
+//	canvas_show(false);
 	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });

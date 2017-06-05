@@ -1,20 +1,22 @@
 function creatCanvas () {
-	var h_canvas = $('#gameBoard').height();
-	var w_canvas = $('#gameBoard').width();
+	var h_canvas = $('#gameBoard').height()+"px";
+	var w_canvas = $('#gameBoard').width()+"px";
+	var position = $('#gameBoard').position();
+	var t_canvas = position.top;
+	var l_canvas = position.left;
 	var canvas = $("<canvas>");
 	canvas.attr('id','canvas');
-	canvas.attr({'height' : h_canvas ,'width': w_canvas} );
-	canvas.css('border','1px solid black');
-	canvas.css('z-index','5');
+	canvas.css({'height' : h_canvas ,'width': w_canvas} );
+	canvas.css({'top' : t_canvas ,'left': l_canvas} );
+//	canvas.css('z-index','5');
 	$("#bdy").append(canvas);
 }
-//// @params boolean true to show the canvas false to hide.
-//function canvas_show(bShow) {
-//	console.log("-----------------canvas show --------------");
-//	var show = bShow ? '5' : '-1';
-//		canvas.attr({'height' : h_canvas} );
-//	canvas.css('z-index',show);
-//}
+// @params boolean true to show the canvas false to hide.
+function canvas_show(bShow) {
+	console.log("-----------------canvas show --------------");
+	var show = bShow ? '5' : '-1';
+	$("#canvas").css('z-index',show);
+}
 
 
 function canvasClear() {
@@ -41,13 +43,13 @@ function paint_dash (where,no) {
 			break;
 		}
 	var canvas = document.getElementById('canvas');
-	h_canvas = $('#canvas').height();
-	w_canvas = $('#canvas').width();
+	h_canvas = canvas.height;
+	w_canvas = canvas.width;
 	var c = canvas.getContext('2d');
 	//first clear the canvas
 	c.clearRect(0,0,w_canvas,h_canvas);
 	c.strokeStyle = "black";
-	c.lineWidth = 15;
+	c.lineWidth = 5;
 	c.beginPath();
 	switch (where) {
 		case 'column':
