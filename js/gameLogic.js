@@ -18,31 +18,21 @@ function toggelPlayer() {
 		showGameModal();
 		return;
 	}
+    //if the state is win or draw then terminate the game.
+    if (player.substr(2,3)!='tmp')  && ((gameTerminal == 'AI win') || (gameTerminal == 'Human win')) {
+        console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
+        paint_dash (winner.sequence,winner.no);
+        $("#canvas").show();
+        showGameModal();
+        return;
+    }
 	//If AI is examinating the board it uses two agent players: A/H temp
 	switch(player) {
-		case 'H':
-			//if the state is win or draw then terminate the game.
-			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win')) {
-				console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
-				paint_dash (winner.sequence,winner.no);
-				$("#canvas").show();
-//				canvas_show(true);
-				showGameModal();
-				break;
-			}			
+		case 'H':			
 			player = 'A'; //if a human is playing change the player to AI
 			ai();
 			break;
-		case 'A':
-			//if the state is win or draw then terminate the game.
-			if ((gameTerminal == 'AI win') || (gameTerminal == 'Human win') ) {
-				console.log( 'AI win - paint dash request: '+winner.sequence + ' ' + winner.no )
-				paint_dash (winner.sequence,winner.no);
-				$("#canvas").show();
-//				canvas_show(true);
-				showGameModal();
-				break;
-			}						
+		case 'A':						
 			player = 'H';
 			break;
 		case 'A tmp': // 'A tmp' for AI temporary moves

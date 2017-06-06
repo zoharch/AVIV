@@ -8,12 +8,11 @@ function creatCanvas () {
 	canvas.attr('id','canvas');
 	canvas.css({'height' : h_canvas ,'width': w_canvas} );
 	canvas.css({'top' : t_canvas ,'left': l_canvas} );
-//	canvas.css('z-index','5');
+
 	$("#bdy").append(canvas);
 }
 // @params boolean true to show the canvas false to hide.
 function canvas_show(bShow) {
-	console.log("-----------------canvas show --------------");
 	var show = bShow ? '5' : '-1';
 	$("#canvas").css('z-index',show);
 }
@@ -29,19 +28,7 @@ function canvasClear() {
 // @param string : 'column' , 'row' , 'Diagonal_down' , 'Diagonal_up'
 // @param x int number row /column 
 function paint_dash (where,no) {
-	console.log("--canvas ----- draw---" + where+ " - " + no );
-	var x;
-	switch (no) {
-		case 1:
-			x = 1;
-			break;
-		case 2:
-			x = 3;
-			break;
-		case 3:
-			x=5;
-			break;
-		}
+	var x = (no * 2) - 1;
 	var canvas = document.getElementById('canvas');
 	h_canvas = canvas.height;
 	w_canvas = canvas.width;
@@ -70,4 +57,3 @@ function paint_dash (where,no) {
 		}
 	c.stroke();
 }
-
