@@ -1,12 +1,16 @@
-var player = 'H'; /* 'A' for AI moves
-					  'H' for Human moves
-					  'A tmp' for AI temporary examination
-					  'H tmp' for AI temporary examination what whould Human whould do.
+var player = 'H'; /* -1 -> 'A' for AI moves
+					  1 -> 'H' for Human moves
+					 -2 -> 'A tmp' for AI temporary examination
+					  2 -> 'H tmp' for AI temporary examination what whould Human whould do.
 				   */
 var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master
 //states of the game are:
-//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
-var gameTerminal = "Didn't Start";
+
+var gameTerminal = "Didn't Start"; /* 0 - "Didn't Start"
+								      1 - 'Human win'
+									  2 - 'AI win'
+									  3 - 'The Game is Draw'; 
+									*/
 //@param global this for the las cell box was clicked
 var _lasPos;
 //------------------------------------------------
@@ -19,7 +23,7 @@ function toggelPlayer() {
 		return;
 	}
     //if the state is win or draw then terminate the game.
-    if (player.substr(2,3)!='tmp')  && ((gameTerminal == 'AI win') || (gameTerminal == 'Human win')) {
+    if ((player.substr(2,3)!='tmp')  && ((gameTerminal == 'AI win') || (gameTerminal == 'Human win'))) {
         console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
         paint_dash (winner.sequence,winner.no);
         $("#canvas").show();
