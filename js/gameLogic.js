@@ -1,25 +1,29 @@
-var player = 'H'; /* 'A' for AI moves
-					  'H' for Human moves
-					  'A tmp' for AI temporary examination
-					  'H tmp' for AI temporary examination what whould Human whould do.
+var player = 1; /*   -1 -> 'A' for AI moves
+					  1 -> 'H' for Human moves
+					 -2 -> 'A tmp' for AI temporary examination
+					  2 -> 'H tmp' for AI temporary examination what whould Human whould do.
 				   */
 var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master
 //states of the game are:
-//"Didn't Start" ; 'AI win' ; 'Human win'; 'The Game is Draw'; 
-var gameTerminal = "Didn't Start";
+
+var gameTerminal = "Didn't Start"; /* 0 - "Didn't Start"
+								      1 - 'Human win'
+									  2 - 'AI win'
+									  3 - 'The Game is Draw'; 
+									*/
 //@param global this for the las cell box was clicked
 var _lasPos;
 //------------------------------------------------
 function toggelPlayer() {
 	var _this = _lasPos;
 	GameState($('.gameCell'),_this);
-	if (gameTerminal == 'The Game is Draw' && player.search('tmp') == -1) {
+	if (gameTerminal == 'The Game is Draw' && Math.abs(player) == 1) {
 		console.log('The Game is Draw');
 		showGameModal();
 		return;
 	}
     //if the state is win or draw then terminate the game.
-    if (player.substr(2,3)!='tmp')  && ((gameTerminal == 'AI win') || (gameTerminal == 'Human win')) {
+    if ((Math.abs(player) == 1)  && ((gameTerminal == 'AI win') || (gameTerminal == 'Human win'))) {
         console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
         paint_dash (winner.sequence,winner.no);
         $("#canvas").show();
@@ -28,23 +32,23 @@ function toggelPlayer() {
     }
 	//If AI is examinating the board it uses two agent players: A/H temp
 	switch(player) {
-		case 'H':			
-			player = 'A'; //if a human is playing change the player to AI
+		case 1:			
+			player = -1; //if a human is playing change the player to AI
 			ai();
 			break;
-		case 'A':						
-			player = 'H';
+		case -1:						
+			player = 1;
 			break;
-		case 'A tmp': // 'A tmp' for AI temporary moves
+		case -2: // 'A tmp' for AI temporary moves
 			//game state is only temporary so dont show anything to the screen yet.
 			// issue: check game state in ai()
-			player = 'H tmp';
+			player = 2;
 			ai();
 			break;
-		case 'H tmp': // 'H tmp' for AI temporary examination what whould Human whould do.
+		case 2: // 'H tmp' for AI temporary examination what whould Human whould do.
 			//game state is only temporary so dont show anything to the screen yet.
 			// issue: check game state in ai()
-			player = 'A tmp';
+			player = -2;
 			ai();
 			break;
 		default:
@@ -83,7 +87,7 @@ function GameState(aGameMap,position) {
 	bSearchWin(aGameMap,x,y);
 	if (winner.bwin) {
 		//'A tmp'.substr(0,1) = 'A'
-        gameTerminal = player.substr(0,1)=='A' ? 'AI win' : 'Human win';
+        gameTerminal = (player < 0) ? 'AI win' : 'Human win';
 		//if the returned object is an empty array of columns, length=0
     } else if (searchForEmptyCells().length==0) { 
         //check if it is a finale state, (all bord is ocupied)
@@ -116,11 +120,7 @@ function bSearchWin(aGameMap,x,y) {
 	var i,
 		k,
 		str = '',
-		strWin = '';
-	//decide the strWin
-	for (i = 1 ; i<= MAX_COLS; i++){
-		strWin += player.substr(0,1); //HHH or AAA ('H temp'.substr(0,1)='H')
-	}
+		strWin = (player < 0) ? "AAA" : "HHH";
 	winner.bwin = false;
 //	direction(y, yDir, x, xDir,str,newY,newX)
 // y,y is the position in the multidemantion array of the starting point.

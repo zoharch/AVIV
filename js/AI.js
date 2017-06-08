@@ -18,7 +18,7 @@ function ai() {
 		default: 
 			console.log('ai() default: invalid level happend');
 				}
-	player = 'A'; // symbolise AI player vers H (for Human) player
+	player = -1; // symbolise AI player vers H (for Human) player
 	printSymbol(selection);
 	_lasPos = selection;
 	toggelPlayer();
@@ -58,7 +58,7 @@ function aiMaster(Aoptions) {
 	// start with random move and loop frew the board to find a better one.
 	var bestMove = Aoptions[Math.round((Aoptions.length-1)*Math.random())];
 	for (var i = 0; i < Aoptions.length; i++) {
-		player = 'A tmp';
+		player = -2;
 		AImove = Aoptions[i];
 		printSymbol(AImove);
 		// check game status
@@ -75,7 +75,7 @@ function aiMaster(Aoptions) {
 		//if the returned object is an empty array of columns, length=0		
 		if (Hoptions.length) {
 			for (var k = 0; k < Hoptions.length; k++) {
-				player = 'H tmp';
+				player = 2;
 				Hmove = Hoptions[k];
 				printSymbol(Hmove);
 				// check game status

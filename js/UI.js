@@ -19,7 +19,6 @@ $(function () {
 	board_paint();
 	creatCanvas();
 	$("#canvas").hide();
-//	canvas_show(false);
 	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });
@@ -36,7 +35,7 @@ function board_paint() {
 		for (x = 1; x <= MAX_COLS; x++) {
 			div = $("<div>");
 			div.addClass('gameCell btn btn-primary col-xs-4 spot');
-			div.css('height',H);
+			div.css({'height': H,'display': 'flex','align-items': 'center'});
 			div.attr('id',y+'-'+x);
 			div.attr('value',0);
 			$("#gameBoard").append(div);
@@ -46,24 +45,41 @@ function board_paint() {
 
 function printSymbol(_this) {
 	
-	var symbol = (player == "H" || player == 'H tmp') ? X : O ;
-	
-	$(_this).attr('value',player).removeClass('spot');
+	var symbol = (player > 0) ? X : O ;
+	var val,img,h,w;
+	switch (player) {
+		case 1:
+			val = 'H';
+			break;
+		case -1:
+			val = 'A';
+			break;
+		case 2:
+			val = 'H tmp';
+			$(_this).addClass('AI-Hguess');
+			break;
+		case -2:
+			val = "A tmp";
+			$(_this).addClass('AIguess');
+			break;
+		default:
+			console.log("unavailable player"+player);
+	}
+	$(_this).attr('value',val).removeClass('spot');
 	// player A/H tmp are the middle process of AI calculating it's best move.
 	// therefore the img is not showed on the board.
-	if (player == 'A tmp') {
-		$(_this).addClass('AIguess');
-		return;
-		}
-	if (player == 'H tmp') {
-		$(_this).addClass('AI-Hguess');
-		return;
-		}
-	var img = $("<img>");
-	img.attr("src",symbol);
-	img.css("height",$(_this).height()+"px");
-	img.css("width",$(_this).width()+"px");
-	$(_this).append(img);
+	if (Math.abs(player) == 1) {
+		img = $("<img>");
+		img.attr("src",symbol);
+		h = $(_this).height();
+		w = $(_this).width();
+		if (h<w) {
+			img.css("height",h+"px");
+		} else {
+			img.css("width",w+"px");	
+		}	
+		$(_this).append(img);	
+	}
 }
 
 // clear the bord from AI guses
@@ -81,7 +97,7 @@ function clearAI_Hgueses(gameCell) {
 function restart() {
 	console.log("restart");
 	gameTerminal = "Didn't Start";
-	player = 'H';
+	player = 1;
 	winner.bwin = false;
     $('#GameModal').modal('hide');
     $('#gameBoard').empty();
