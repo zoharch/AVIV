@@ -8,13 +8,7 @@ function creatCanvas () {
 	canvas.attr('id','canvas');
 	canvas.css({'height' : h_canvas ,'width': w_canvas} );
 	canvas.css({'top' : t_canvas ,'left': l_canvas} );
-
 	$("#bdy").append(canvas);
-}
-// @params boolean true to show the canvas false to hide.
-function canvas_show(bShow) {
-	var show = bShow ? '5' : '-1';
-	$("#canvas").css('z-index',show);
 }
 
 
@@ -40,12 +34,12 @@ function paint_dash (where,no) {
 	c.beginPath();
 	switch (where) {
 		case 'column':
-			c.moveTo((x*w_canvas/6),(h_canvas/6));
-			c.lineTo((x*w_canvas/6),(5*h_canvas/6));
+			c.moveTo((x*w_canvas/6),(h_canvas/15));
+			c.lineTo((x*w_canvas/6),(14*h_canvas/15));
 			break;
 		case 'row':
-			c.moveTo((w_canvas/6),(x*h_canvas/6));
-			c.lineTo((5*w_canvas/6),(x*h_canvas/6));		
+			c.moveTo((w_canvas/30),(x*h_canvas/6));
+			c.lineTo((29*w_canvas/30),(x*h_canvas/6));		
 			break;
 		case 'Diagonal_down':
 			c.moveTo((w_canvas/9),(h_canvas/9));
