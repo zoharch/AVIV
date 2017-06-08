@@ -35,7 +35,7 @@ function board_paint() {
 		for (x = 1; x <= MAX_COLS; x++) {
 			div = $("<div>");
 			div.addClass('gameCell btn btn-primary col-xs-4 spot');
-			div.css({'height': H,'display': 'flex','align-items': 'center'});
+			div.css({'height': H,'display': 'flex','align-items': 'center','justify-content': 'center'});
 			div.attr('id',y+'-'+x);
 			div.attr('value',0);
 			$("#gameBoard").append(div);
