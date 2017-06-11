@@ -6,7 +6,7 @@ function creatCanvas () {
 	var l_canvas = position.left;
 	var canvas = $("<canvas>");
 	canvas.attr('id','canvas');
-	canvas.css({'height' : h_canvas ,'width': w_canvas} );
+	canvas.attr({'height' : h_canvas ,'width': w_canvas} );
 	canvas.css({'top' : t_canvas ,'left': l_canvas} );
 	$("#bdy").append(canvas);
 }
@@ -22,7 +22,7 @@ function canvasClear() {
 // @param string : 'column' , 'row' , 'Diagonal_down' , 'Diagonal_up'
 // @param x int number row /column 
 function paint_dash (where,no) {
-	var x = (no * 2) - 1;
+	var x = 2 * no - 1 
 	var canvas = document.getElementById('canvas');
 	h_canvas = $('#canvas').height();
 	w_canvas = $('#canvas').width();
