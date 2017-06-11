@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		<title>AI X - O</title>
+		<title>איקס עיגול</title>
 		<!-- Jquery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<!-- BootStrap -->
@@ -20,15 +20,12 @@
 		* {
 			box-sizing:border-box;
 		}
-		canvas,#gameBoard {
+		#gameBoard,canvas {
 			margin:0;
 			padding:0;
 		}
 		#gameBoard {
-			position: relative;
-		}
-		canvas {
-			position: absolute; 
+			z-index: 1;
 		}
 		#msg,#btn2,
 		#btn3,#modTitle {
@@ -42,6 +39,22 @@
         	-o-transition: opacity 2.25s linear;
 			transition: opacity 2.25s linear;
 			}
+		#bdy{
+				position: relative;
+			}
+		#nav {
+				margin: 0;
+				z-index: 3;
+			}
+			#canvas {
+				position: absolute;
+			}
+			table {
+				direction: rtl;
+			}
+			td {
+				text-align: left;
+			}
 		</style>
 		<!-- My scripts -->
 		<script src="js/UI.js"></script>
@@ -49,27 +62,79 @@
 		<script src="js/AI.js"></script>
         <script src="js/canvas.js"></script>
 	</head>
-	<body id="bdy" class="container">
-    	<div id="gameBoard" class="row"></div>
-        
-        <div id="GameModal" class="modal fade in">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 id="modTitle" class="modal-title">המשחק הסתיים</h5>
-                <button id="btn1" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+	<body id="bdy">
+	<!-- Navigation -->
+    <nav id="nav" class="navbar navbar-inverse bg-primary navbar-custom ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle " data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+                   <i class="fa fa-bars"></i>
                 </button>
-              </div>
-              <div class="modal-body">
-                <p id="msg">Modal body text goes here.</p>
-              </div>
-              <div class="modal-footer">
-                <button id="btn2" type="button" class="btn btn-primary">משחק חדש</button>
-                <button id="btn3" type="button" class="btn btn-secondary" data-dismiss="modal">יציאה</button>
-              </div>
+				<table>
+					<tr>
+						<td>
+							<span id="hearts" ></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="sucessProgress" class="progress align-middle" style="display:inline-block; width: 300px">
+								<div class="progress-bar progress-bar-striped active" role="progressbar" aria-	valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+							  		<span >45% לשלב הבא</span>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
             </div>
-          </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">צור קשר</a>
+                    </li>
+					<li>
+                        <a href="#">הסברים</a>
+                    </li>
+                    <li>
+                        <a href="#"> לשחק מול חברים</a>
+                    </li>
+                    <li>
+                        <a href="#">לשחק מול המחשב </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container -->
+    </nav>
+		<div id="gameBoard" class="row"></div> 
+		<!-- here comes gamcell div from js -->
+		<div id="GameModal" class="modal fade in">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 id="modTitle" class="modal-title">המשחק הסתיים</h5>
+				<button id="btn1" type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<p id="msg">Modal body text goes here.</p>
+			  </div>
+			  <div class="modal-footer">
+				<button id="btn2" type="button" class="btn btn-primary">משחק חדש</button>
+				<button id="btn3" type="button" class="btn btn-secondary" data-dismiss="modal">יציאה</button>
+			  </div>
+			</div>
+		  </div>
+		</div>	
 	</body>
 </html>
