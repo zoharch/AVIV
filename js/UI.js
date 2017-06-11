@@ -15,6 +15,7 @@ $(function () {
 	//deligate click event of the div(gameCell) childes
 	// to the parent container gameBoard
 	$("#gameBoard").on("click",".gameCell",spotClick);
+	hearts_paint();
 	//paint the board game and the canvas;
 	board_paint();
 	creatCanvas();
@@ -22,20 +23,41 @@ $(function () {
 	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });
+function hearts_paint() {
+	var heart;
+	var h = $("#nav").height()/2;
+	for (var i = 1; i <=8 ; i ++ ) {
+		heart = $("<img>");
+		heart
+			.attr({
+			"id" : "heart"	+ i ,
+			'src' : "img/heart1.png"
+				})
+			.css('height',h);
+	$("#hearts").append(heart);	
+	}
+}
 //*********************************************
 // painting board game and setting click event 
 function board_paint() {
 	var x,y,div;
 	//using clientWidth and clientHeight for IE8 and earlier
-	const H = window.innerHeight/MAX_ROWS || 
-		  document.documentElement.clientHeight/MAX_ROWS ||
-		  document.body.clientHeight/MAX_ROWS;
+	const OVERALL_HEIGHT = window.innerHeight || 
+		  document.documentElement.clientHeight ||
+		  document.body.clientHeight;
+	const NAV_HEIGHT = $("#nav").height();
+	var gamcellHeight =(OVERALL_HEIGHT-NAV_HEIGHT)/MAX_ROWS;
 	// loop:
 	for (y = 1; y <= MAX_ROWS; y++) {
 		for (x = 1; x <= MAX_COLS; x++) {
 			div = $("<div>");
 			div.addClass('gameCell btn btn-primary col-xs-4 spot');
-			div.css({'height': H,'display': 'flex','align-items': 'center','justify-content': 'center'});
+			div.css({
+				'height': gamcellHeight,
+				'display': 'flex',
+				'align-items': 'center',
+				'justify-content': 'center'
+			});
 			div.attr('id',y+'-'+x);
 			div.attr('value',0);
 			$("#gameBoard").append(div);

@@ -24,8 +24,8 @@ function canvasClear() {
 function paint_dash (where,no) {
 	var x = (no * 2) - 1;
 	var canvas = document.getElementById('canvas');
-	h_canvas = canvas.height;
-	w_canvas = canvas.width;
+	h_canvas = $('#canvas').height();
+	w_canvas = $('#canvas').width();
 	var c = canvas.getContext('2d');
 	//first clear the canvas
 	c.clearRect(0,0,w_canvas,h_canvas);
