@@ -3,7 +3,7 @@ var player = 1; /*   -1 -> 'A' for AI moves
 					 -2 -> 'A tmp' for AI temporary examination
 					  2 -> 'H tmp' for AI temporary examination what whould Human whould do.
 				   */
-var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master
+var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master , -1 - two players and not AI
 //states of the game are:
 
 var gameTerminal = "Didn't Start"; /* 0 - "Didn't Start"
@@ -16,13 +16,13 @@ var _lasPos;
 //------------------------------------------------
 function toggelPlayer() {
 	var _this = _lasPos;
+    //if the state is win or draw then terminate the game.
 	GameState($('.gameCell'),_this);
 	if (gameTerminal == 'The Game is Draw' && Math.abs(player) == 1) {
 		console.log('The Game is Draw');
 		showGameModal();
 		return;
 	}
-    //if the state is win or draw then terminate the game.
     if ((Math.abs(player) == 1)  && ((gameTerminal == 'AI win') || (gameTerminal == 'Human win'))) {
         console.log( 'winer - paint dash request: '+winner.sequence + ' ' + winner.no )
         paint_dash (winner.sequence,winner.no);

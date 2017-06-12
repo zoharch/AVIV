@@ -12,6 +12,9 @@ const O = "img/O-Jolle_insigna.png";
 
 //on load Jquery :
 $(function () {
+	//menu definitions
+	$("idFreindSelect").on("click",friend);
+	$("idAiSelect").on("click",computer);
 	//deligate click event of the div(gameCell) childes
 	// to the parent container gameBoard
 	$("#gameBoard").on("click",".gameCell",spotClick);
@@ -23,6 +26,14 @@ $(function () {
 	//Modal btn event listener (game over dialog)
     $("#btn2").on("click",restart);
 });
+
+function friend () {
+	console.log("friend");
+}
+function computer () {
+	console.log("computer");
+}
+
 function hearts_paint() {
 	var heart;
 	var h = $("#nav").height()/2;
@@ -51,7 +62,7 @@ function board_paint() {
 	for (y = 1; y <= MAX_ROWS; y++) {
 		for (x = 1; x <= MAX_COLS; x++) {
 			div = $("<div>");
-			div.addClass('gameCell btn btn-primary col-xs-4 spot');
+			div.addClass('gameCell btn btn-primary col-4 spot');
 			div.css({
 				'height': gamcellHeight,
 				'display': 'flex',
