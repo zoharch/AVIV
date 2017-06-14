@@ -1,3 +1,4 @@
+var friend = 0; // 0 - AI , 1 = play agains friends
 const MAX_ROWS = 3;
 const MAX_COLS = 3;
 const X = "img/x-png-18.png";
@@ -13,8 +14,8 @@ const O = "img/O-Jolle_insigna.png";
 //on load Jquery :
 $(function () {
 	//menu definitions
-	$("idFreindSelect").on("click",friend);
-	$("idAiSelect").on("click",computer);
+	$("#idAiSelect").on("click",computer);
+	$("#idFreind").on("click",display);
 	//deligate click event of the div(gameCell) childes
 	// to the parent container gameBoard
 	$("#gameBoard").on("click",".gameCell",spotClick);
@@ -27,11 +28,23 @@ $(function () {
     $("#btn2").on("click",restart);
 });
 
-function friend () {
-	console.log("friend");
+function display() {
+		alert("friend");
+	if ($(this).attr('aria-pressed')=="true") return; 
+	$(this).attr('aria-pressed',"true");
+	$("#idAiSelect").attr('aria-pressed',"false");
+	$("#idAiSelect").removeClass("active");
+	$(this).addClass("active");
+	friend = 1;
 }
-function computer () {
-	console.log("computer");
+function computer() {
+		alert("compter");
+	if ($(this).attr('aria-pressed')=="true") return;
+	$(this).attr('aria-pressed',"true");
+	$("#idFreind").attr('aria-pressed',"false");
+	$("#idFreind").removeClass("active");
+	$(this).addClass("active");
+	friend = 0;
 }
 
 function hearts_paint() {
@@ -62,7 +75,7 @@ function board_paint() {
 	for (y = 1; y <= MAX_ROWS; y++) {
 		for (x = 1; x <= MAX_COLS; x++) {
 			div = $("<div>");
-			div.addClass('gameCell btn btn-primary col-4 spot');
+			div.addClass('gameCell bg-primary col-4 spot');
 			div.css({
 				'height': gamcellHeight,
 				'display': 'flex',
@@ -73,6 +86,15 @@ function board_paint() {
 			div.attr('value',0);
 			$("#gameBoard").append(div);
 		}
+		$("#1-1").addClass('border border-top-0 border-left-0');
+		$("#1-2").addClass('border border-top-0');
+		$("#1-3").addClass('border border-top-0 border-right-0');
+		$("#2-1").addClass('border border-left-0');
+		$("#2-2").addClass('border');
+		$("#2-3").addClass('border border-right-0');
+		$("#3-1").addClass('border border-bottom-0 border-left-0');
+		$("#3-2").addClass('border border-bottom-0');
+		$("#3-3").addClass('border border-bottom-0 border-right-0');
 	}
 }
 
