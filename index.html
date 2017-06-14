@@ -8,6 +8,75 @@
 		 <title>איקס עיגול</title>
 		<!-- BootStrap 4 css -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+	</head>
+	<body id="bdy">
+	<!-- Navigation -->
+<nav id="nav" class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+       	aria-expanded="false"   aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  				<table>
+					<tr>
+						<td>
+							<span id="hearts" ></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="sucessProgress" class="progress align-middle" style="display:inline-block; width: 300px">
+								<div class="progress-bar progress-bar-striped active" role="progressbar" aria-	valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+							  		<span >45% לשלב הבא</span>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ">
+          <li  class="nav-item">
+			<button id="idAiSelect" class="btn btn-outline-success active" type="button" aria-pressed="true">לשחק מול המחשב </button>
+          </li>
+          <li class="nav-item">
+			<button id="idFreind" class="btn btn-outline-success " type="button" aria-pressed="false">לשחק מול חבר </button>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">הסברים</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">צור קשר</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">שתף</a>
+          </li>      
+        </ul>
+      </div>
+  </nav>
+  <!-- ******************************************************************** -->
+		<div id="gameBoard" class="row"></div> 
+		<!-- here comes gamcell div from js -->
+  <!-- ******************************************************************** -->        
+		<div id="GameModal" class="modal fade in">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 id="modTitle" class="modal-title">המשחק הסתיים</h5>
+				<button id="btn1" type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<p id="msg">Modal body text goes here.</p>
+			  </div>
+			  <div class="modal-footer">
+				<button id="btn2" type="button" class="btn btn-primary">משחק חדש</button>
+				<button id="btn3" type="button" class="btn btn-secondary" data-dismiss="modal">יציאה</button>
+			  </div>
+			</div>
+		  </div>
+		</div>	
 		<!-- BootStrap 4 and Jquery -->       
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
@@ -49,79 +118,17 @@
 			td {
 				text-align: left;
 			}
+			.border {border: 2px solid;}
+			.border-top-0 {border-top: 0;}
+			.border-left-0 {border-left: 0;}
+			.border-right-0 {border-right: 0;}
+			.border-bottom-0 {border-bottom: 0;}
+
 		</style>
 		<!-- My scripts -->
 		<script src="js/UI.js"></script>
 		<script src="js/gameLogic.js"></script>
 		<script src="js/AI.js"></script>
-        <script src="js/canvas.js"></script>
-	</head>
-	<body id="bdy">
-	<!-- Navigation -->
-<nav id="nav" class="navbar navbar-toggleable-md navbar-light bg-faded">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-       	aria-expanded="false"   aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  				<table>
-					<tr>
-						<td>
-							<span id="hearts" ></span>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div id="sucessProgress" class="progress align-middle" style="display:inline-block; width: 300px">
-								<div class="progress-bar progress-bar-striped active" role="progressbar" aria-	valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-							  		<span >45% לשלב הבא</span>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</table>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto ">
-          <li id="idAiSelect" class="nav-item active">
-            <a  class="nav-link" href="#">לשחק מול המחשב <span class="sr-only">(current)</span></a>
-          </li>
-          <li  id="idFreindSelect" class="nav-item">
-            <a class="nav-link" href="#">לשחק מול חבר</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">הסברים</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">צור קשר</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">שתף</a>
-          </li>      
-        </ul>
-      </div>
-  </nav>
-  <!-- ******************************************************************** -->
-		<div id="gameBoard" class="row"></div> 
-		<!-- here comes gamcell div from js -->
-  <!-- ******************************************************************** -->        
-		<div id="GameModal" class="modal fade in">
-		  <div class="modal-dialog" role="document">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<h5 id="modTitle" class="modal-title">המשחק הסתיים</h5>
-				<button id="btn1" type="button" class="close" data-dismiss="modal" aria-label="Close">
-				  <span aria-hidden="true">&times;</span>
-				</button>
-			  </div>
-			  <div class="modal-body">
-				<p id="msg">Modal body text goes here.</p>
-			  </div>
-			  <div class="modal-footer">
-				<button id="btn2" type="button" class="btn btn-primary">משחק חדש</button>
-				<button id="btn3" type="button" class="btn btn-secondary" data-dismiss="modal">יציאה</button>
-			  </div>
-			</div>
-		  </div>
-		</div>	
+        <script src="js/canvas.js"></script>		
 	</body>
 </html>
