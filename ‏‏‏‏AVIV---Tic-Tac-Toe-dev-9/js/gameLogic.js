@@ -5,7 +5,7 @@ var player = 1; /*   -1 -> 'A' for AI moves
 					  2 -> 'H tmp' for AI temporary examination what whould Human whould do.
 					  0 -> 'friend'
 				   */
-var level = 3 ; // AI levels: 1- blind , 2 - novice, 3 - master 
+var level = 1 ; // AI levels: 1- blind , 2 - novice, 3 - master 
 //states of the game are:
 const AmountOfVictoriestoTheNextLevel = 3;
 const AmountOFailurstoGoDownLevel = 3;
